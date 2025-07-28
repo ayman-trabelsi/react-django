@@ -11,16 +11,20 @@ services:
     volumes:
       - jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
 
   jenkins-agent:
-    image: jenkins/inbound-agent
-    container_name: jenkins-agent
-    environment:
-      JENKINS_URL: ${JENKINS_MASTER_URL}
-      JENKINS_SECRET: ${JENKINS_SECRET}
-      JENKINS_AGENT_NAME: ${JENKINS_AGENT_NAME}
-    depends_on:
-      - jenkins
+  image: jenkins/inbound-agent
+  container_name: jenkins-agent
+  environment:
+    JENKINS_URL: ${JENKINS_MASTER_URL}
+    JENKINS_SECRET: ${JENKINS_SECRET}
+    JENKINS_AGENT_NAME: ${JENKINS_AGENT_NAME}
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  depends_on:
+    - jenkins
+
 
   sonarqube:
     image: sonarqube:community
@@ -28,12 +32,14 @@ services:
     ports:
       - "9000:9000"
     environment:
-      - SONARQUBE_JDBC_URL=jdbc:mysql://db:3306/mydb
-      - SONARQUBE_JDBC_USERNAME=myuser
-      - SONARQUBE_JDBC_PASSWORD=mypass
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
     volumes:
       - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+    restart: unless-stopped
 
 volumes:
   jenkins_home:
   sonarqube_data:
+  sonarqube_extensions:
+
