@@ -15,25 +15,24 @@ pipeline {
     }
 
     stage('SonarQube Analysis') {
-      steps {
-        withSonarQubeEnv('SonarQubeScanner') {
+  steps {
+    withSonarQubeEnv('SonarQubeScanner') {
       withCredentials([string(credentialsId: 'sonarqube_token', variable: 'SONAR_TOKEN')]) {
-        sh """
+        sh '''#!/bin/bash
           docker run --rm \
             --network jenkins_default \
-            -v \$(pwd):/usr/src \
+            -v $(pwd):/usr/src \
             sonarsource/sonar-scanner-cli \
-            -Dsonar.projectKey=${PROJECT_NAME} \
-            -Dsonar.sources=.
+            -Dsonar.projectKey=project1 \
+            -Dsonar.sources=. \
             -Dsonar.language=py \
             -Dsonar.host.url=http://sonarqube:9000 \
             -Dsonar.token=$SONAR_TOKEN
-        """
-          }
-        }
+        '''
       }
     }
-
+  }
+}
     stage('DockerHub Login') {
       steps {
         sh """
