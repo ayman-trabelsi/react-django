@@ -17,8 +17,17 @@ pipeline {
     stage('SonarQube Analysis') {
       steps {
         withSonarQubeEnv('SonarQubeScanner') {
-          withCredentials([string(credentialsId: 'sonarqube_token', variable: 'SONAR_TOKEN')]) {
-            sh 'sonar-scanner -Dsonar.projectKey=project1 -Dsonar.sources=./backend -Dsonar.language=py -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=$SONAR_TOKEN'
+      withCredentials([string(credentialsId: 'sonarqube_token', variable: 'SONAR_TOKEN')]) {
+        sh """
+          docker run --rm \
+            -v \$(pwd):/usr/src \
+            sonarsource/sonar-scanner-cli \
+            -Dsonar.projectKey=${PROJECT_NAME} \
+            -Dsonar.sources=./backend \
+            -Dsonar.language=py \
+            -Dsonar.host.url=http://sonarqube:9000 \
+            -Dsonar.login=$SONAR_TOKEN
+        """
           }
         }
       }
