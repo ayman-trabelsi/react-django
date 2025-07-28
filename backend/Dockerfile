@@ -9,7 +9,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # Install dependencies
-COPY requirements.txt .
+COPY backend_project/requirements.txt .
 RUN pip install -r requirements.txt
 
 # Copy Django project files
