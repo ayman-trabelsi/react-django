@@ -1,9 +1,9 @@
 pipeline {
-  agent { label 'agent1' } 
+  agent { label 'agent1' }
   environment {
-    DOCKERHUB_CREDS = credentials('dockerhub')         
-    GITHUB_TOKEN    = credentials('github-token')      
-    SONAR_TOKEN     = credentials('sonarqube_token')  
+    DOCKERHUB_CREDS = credentials('dockerhub')
+    GITHUB_TOKEN    = credentials('github-token')
+    SONAR_TOKEN     = credentials('sonarqube_token')
     PROJECT_NAME    = 'project1'
   }
 
@@ -15,11 +15,12 @@ pipeline {
     }
 
     stage('SonarQube Analysis') {
-  steps {
-    withSonarQubeEnv('SonarQubeScanner') {
-      withCredentials([string(credentialsId: 'sonarqube_token', variable: 'SONAR_TOKEN')]) {
-        sh 'sonar-scanner -Dsonar.projectKey=project1 -Dsonar.sources=./backend -Dsonar.language=py -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=$SONAR_TOKEN'
-      }
+      steps {
+        withSonarQubeEnv('SonarQubeScanner') {
+          withCredentials([string(credentialsId: 'sonarqube_token', variable: 'SONAR_TOKEN')]) {
+            sh 'sonar-scanner -Dsonar.projectKey=project1 -Dsonar.sources=./backend -Dsonar.language=py -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=$SONAR_TOKEN'
+          }
+        }
       }
     }
 
@@ -77,3 +78,4 @@ pipeline {
     }
   }
 }
+
