@@ -20,6 +20,7 @@ pipeline {
       withCredentials([string(credentialsId: 'sonarqube_token', variable: 'SONAR_TOKEN')]) {
         sh """
           docker run --rm \
+            --network jenkins_default \
             -v \$(pwd):/usr/src \
             sonarsource/sonar-scanner-cli \
             -Dsonar.projectKey=${PROJECT_NAME} \

@@ -14,17 +14,17 @@ services:
     restart: unless-stopped
 
   jenkins-agent:
-  image: jenkins/inbound-agent
-  container_name: jenkins-agent
-  environment:
-    JENKINS_URL: ${JENKINS_MASTER_URL}
-    JENKINS_SECRET: ${JENKINS_SECRET}
-    JENKINS_AGENT_NAME: ${JENKINS_AGENT_NAME}
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-  depends_on:
-    - jenkins
-
+    image: nazman/inbound-agent-docker
+    container_name: jenkins-agent
+    user: root
+    environment:
+      JENKINS_URL: ${JENKINS_MASTER_URL}
+      JENKINS_SECRET: ${JENKINS_SECRET}
+      JENKINS_AGENT_NAME: ${JENKINS_AGENT_NAME}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - jenkins
 
   sonarqube:
     image: sonarqube:community
