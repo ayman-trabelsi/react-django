@@ -42,13 +42,18 @@ pipeline {
     }
 
     stage('Remove Old Docker Images') {
-      steps {
-        sh """
-          docker rmi -f \$(docker images -q ayman43/frontend-app || true)
-          docker rmi -f \$(docker images -q ayman43/backend-app || true)
-        """
+  steps {
+    script {
+      def images = sh(script: "docker images -q ayman43/frontend-app", returnStdout: true).trim()
+      if (images) {
+        sh "docker rmi -f ${images}"
+      } else {
+        echo "No old docker images to remove."
       }
     }
+  }
+}
+
 
     stage('Build Docker Images') {
       steps {
