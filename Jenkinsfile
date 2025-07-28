@@ -24,10 +24,10 @@ pipeline {
             -v \$(pwd):/usr/src \
             sonarsource/sonar-scanner-cli \
             -Dsonar.projectKey=${PROJECT_NAME} \
-            -Dsonar.sources=./backend \
+            -Dsonar.sources=.
             -Dsonar.language=py \
             -Dsonar.host.url=http://sonarqube:9000 \
-            -Dsonar.login=$SONAR_TOKEN
+            -Dsonar.token=$SONAR_TOKEN
         """
           }
         }
