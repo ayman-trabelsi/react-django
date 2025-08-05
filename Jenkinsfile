@@ -26,7 +26,7 @@ pipeline {
             -Dsonar.projectKey=project1 \
             -Dsonar.sources=. \
             -Dsonar.language=py \
-            -Dsonar.host.url=http://sonarqube-community:9000 \
+            -Dsonar.host.url=http://sonarqube:9000 \
             -Dsonar.token=$SONAR_TOKEN
         '''
       }
