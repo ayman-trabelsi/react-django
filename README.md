@@ -25,7 +25,6 @@ The pipeline is managed with Jenkins, containerized with Docker, and analyzed fo
 | Image Registry      | DockerHub            |
 
 ## 📁 Project Structure
-<img width="4444" height="1069" alt="deepseek_mermaid_20250821_4d917c" src="https://github.com/user-attachments/assets/54c8f295-d8d5-4d4f-93d1-5192a2b9e085" />
 
 ```
 project-root/
@@ -43,7 +42,6 @@ project-root/
 
 The infrastructure is based on a VMware-hosted Ubuntu environment with multiple Docker containers. Jenkins acts as the orchestrator of the CI/CD pipeline, coordinating code retrieval, quality analysis, image building, and deployment.
 
-<img width="828" height="2538" alt="deepseek_mermaid_20250821_dae061" src="https://github.com/user-attachments/assets/8fc90faf-34b6-46e5-8354-51e604fdd9ce" />
 
 ```mermaid
 flowchart LR
